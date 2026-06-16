@@ -26,10 +26,14 @@ const base = process.env.GH_PAGES_BASE ?? "/";
 
 export default defineConfig({
   vite: { base },
-  tanstackStart: {
-    server: { entry: "server" },
-    ...(isPagesBuild
-      ? { pages: ROUTES.map((path) => ({ path, prerender: { enabled: true } })) }
-      : {}),
-  },
+  tanstackStart: isPagesBuild
+    ? {
+        // For static prerender, let TanStack Start use its default server entry
+        // so the prerender plugin can locate dist/server/server.js as expected.
+        pages: ROUTES.map((path) => ({ path, prerender: { enabled: true } })),
+      }
+    : {
+        // In the Lovable / Cloudflare build, keep our SSR error wrapper.
+        server: { entry: "server" },
+      },
 });
