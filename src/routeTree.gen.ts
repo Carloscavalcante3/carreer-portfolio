@@ -9,8 +9,68 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as SinteseRouteImport } from './routes/sintese'
+import { Route as PlanejamentoRouteImport } from './routes/planejamento'
+import { Route as PerfilRouteImport } from './routes/perfil'
+import { Route as PercursoRouteImport } from './routes/percurso'
+import { Route as HipotesesRouteImport } from './routes/hipoteses'
+import { Route as ExperimentacaoRouteImport } from './routes/experimentacao'
+import { Route as EvidenciasRouteImport } from './routes/evidencias'
+import { Route as EmpregabilidadeRouteImport } from './routes/empregabilidade'
+import { Route as DiagnosticoRouteImport } from './routes/diagnostico'
 import { Route as IndexRouteImport } from './routes/index'
 
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SinteseRoute = SinteseRouteImport.update({
+  id: '/sintese',
+  path: '/sintese',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PlanejamentoRoute = PlanejamentoRouteImport.update({
+  id: '/planejamento',
+  path: '/planejamento',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PerfilRoute = PerfilRouteImport.update({
+  id: '/perfil',
+  path: '/perfil',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PercursoRoute = PercursoRouteImport.update({
+  id: '/percurso',
+  path: '/percurso',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HipotesesRoute = HipotesesRouteImport.update({
+  id: '/hipoteses',
+  path: '/hipoteses',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ExperimentacaoRoute = ExperimentacaoRouteImport.update({
+  id: '/experimentacao',
+  path: '/experimentacao',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EvidenciasRoute = EvidenciasRouteImport.update({
+  id: '/evidencias',
+  path: '/evidencias',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EmpregabilidadeRoute = EmpregabilidadeRouteImport.update({
+  id: '/empregabilidade',
+  path: '/empregabilidade',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DiagnosticoRoute = DiagnosticoRouteImport.update({
+  id: '/diagnostico',
+  path: '/diagnostico',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -19,28 +79,172 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/diagnostico': typeof DiagnosticoRoute
+  '/empregabilidade': typeof EmpregabilidadeRoute
+  '/evidencias': typeof EvidenciasRoute
+  '/experimentacao': typeof ExperimentacaoRoute
+  '/hipoteses': typeof HipotesesRoute
+  '/percurso': typeof PercursoRoute
+  '/perfil': typeof PerfilRoute
+  '/planejamento': typeof PlanejamentoRoute
+  '/sintese': typeof SinteseRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/diagnostico': typeof DiagnosticoRoute
+  '/empregabilidade': typeof EmpregabilidadeRoute
+  '/evidencias': typeof EvidenciasRoute
+  '/experimentacao': typeof ExperimentacaoRoute
+  '/hipoteses': typeof HipotesesRoute
+  '/percurso': typeof PercursoRoute
+  '/perfil': typeof PerfilRoute
+  '/planejamento': typeof PlanejamentoRoute
+  '/sintese': typeof SinteseRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/diagnostico': typeof DiagnosticoRoute
+  '/empregabilidade': typeof EmpregabilidadeRoute
+  '/evidencias': typeof EvidenciasRoute
+  '/experimentacao': typeof ExperimentacaoRoute
+  '/hipoteses': typeof HipotesesRoute
+  '/percurso': typeof PercursoRoute
+  '/perfil': typeof PerfilRoute
+  '/planejamento': typeof PlanejamentoRoute
+  '/sintese': typeof SinteseRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/diagnostico'
+    | '/empregabilidade'
+    | '/evidencias'
+    | '/experimentacao'
+    | '/hipoteses'
+    | '/percurso'
+    | '/perfil'
+    | '/planejamento'
+    | '/sintese'
+    | '/sitemap.xml'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/diagnostico'
+    | '/empregabilidade'
+    | '/evidencias'
+    | '/experimentacao'
+    | '/hipoteses'
+    | '/percurso'
+    | '/perfil'
+    | '/planejamento'
+    | '/sintese'
+    | '/sitemap.xml'
+  id:
+    | '__root__'
+    | '/'
+    | '/diagnostico'
+    | '/empregabilidade'
+    | '/evidencias'
+    | '/experimentacao'
+    | '/hipoteses'
+    | '/percurso'
+    | '/perfil'
+    | '/planejamento'
+    | '/sintese'
+    | '/sitemap.xml'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  DiagnosticoRoute: typeof DiagnosticoRoute
+  EmpregabilidadeRoute: typeof EmpregabilidadeRoute
+  EvidenciasRoute: typeof EvidenciasRoute
+  ExperimentacaoRoute: typeof ExperimentacaoRoute
+  HipotesesRoute: typeof HipotesesRoute
+  PercursoRoute: typeof PercursoRoute
+  PerfilRoute: typeof PerfilRoute
+  PlanejamentoRoute: typeof PlanejamentoRoute
+  SinteseRoute: typeof SinteseRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sintese': {
+      id: '/sintese'
+      path: '/sintese'
+      fullPath: '/sintese'
+      preLoaderRoute: typeof SinteseRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/planejamento': {
+      id: '/planejamento'
+      path: '/planejamento'
+      fullPath: '/planejamento'
+      preLoaderRoute: typeof PlanejamentoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/perfil': {
+      id: '/perfil'
+      path: '/perfil'
+      fullPath: '/perfil'
+      preLoaderRoute: typeof PerfilRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/percurso': {
+      id: '/percurso'
+      path: '/percurso'
+      fullPath: '/percurso'
+      preLoaderRoute: typeof PercursoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/hipoteses': {
+      id: '/hipoteses'
+      path: '/hipoteses'
+      fullPath: '/hipoteses'
+      preLoaderRoute: typeof HipotesesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/experimentacao': {
+      id: '/experimentacao'
+      path: '/experimentacao'
+      fullPath: '/experimentacao'
+      preLoaderRoute: typeof ExperimentacaoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/evidencias': {
+      id: '/evidencias'
+      path: '/evidencias'
+      fullPath: '/evidencias'
+      preLoaderRoute: typeof EvidenciasRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/empregabilidade': {
+      id: '/empregabilidade'
+      path: '/empregabilidade'
+      fullPath: '/empregabilidade'
+      preLoaderRoute: typeof EmpregabilidadeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/diagnostico': {
+      id: '/diagnostico'
+      path: '/diagnostico'
+      fullPath: '/diagnostico'
+      preLoaderRoute: typeof DiagnosticoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -53,6 +257,16 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  DiagnosticoRoute: DiagnosticoRoute,
+  EmpregabilidadeRoute: EmpregabilidadeRoute,
+  EvidenciasRoute: EvidenciasRoute,
+  ExperimentacaoRoute: ExperimentacaoRoute,
+  HipotesesRoute: HipotesesRoute,
+  PercursoRoute: PercursoRoute,
+  PerfilRoute: PerfilRoute,
+  PlanejamentoRoute: PlanejamentoRoute,
+  SinteseRoute: SinteseRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
