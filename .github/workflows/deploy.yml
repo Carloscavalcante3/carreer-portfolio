@@ -1,0 +1,78 @@
+name: Deploy to GitHub Pages
+
+# Build do dossiê (TanStack Start em modo prerender estático) e publicação
+# automática no GitHub Pages a cada push na branch principal.
+#
+# Pré-requisitos no repositório (uma única vez):
+#   1. Settings → Pages → Source: "GitHub Actions"
+#   2. Settings → Actions → General → Workflow permissions: "Read and write"
+#
+# Se o repositório NÃO se chama "<seu-usuario>.github.io", o site fica em
+# https://<seu-usuario>.github.io/<repo>/ — nesse caso, o BASE_PATH abaixo
+# precisa refletir "/<repo>/" (com barras nas duas pontas). Está parametrizado.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Build (static prerender)
+        env:
+          # Para user/organization site (repo "<user>.github.io"): use "/"
+          # Para project site (qualquer outro repo): use "/${{ github.event.repository.name }}/"
+          GH_PAGES_BASE: /${{ github.event.repository.name }}/
+        run: bun run build
+
+      - name: Prepare static output
+        run: |
+          # TanStack Start (nitro) escreve o HTML pré-renderizado e os assets
+          # em .output/public quando o preset é static. Garantimos o .nojekyll
+          # para o GitHub Pages não filtrar arquivos que começam com underscore,
+          # e copiamos um 404.html idêntico ao index para suportar deep links.
+          OUT=.output/public
+          if [ ! -d "$OUT" ]; then
+            # Fallback caso o builder escreva em dist/ (build sem nitro)
+            OUT=dist
+          fi
+          touch "$OUT/.nojekyll"
+          if [ -f "$OUT/index.html" ] && [ ! -f "$OUT/404.html" ]; then
+            cp "$OUT/index.html" "$OUT/404.html"
+          fi
+          echo "PAGES_DIR=$OUT" >> $GITHUB_ENV
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ${{ env.PAGES_DIR }}
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
