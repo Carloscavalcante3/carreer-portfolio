@@ -1,5 +1,9 @@
 import type { Profile } from "@/types/dossier";
-import carlosAsset from "@/assets/carlos.asset.json";
+
+// Lovable serves the original upload via /__l5e/...; for portable builds
+// (incl. GitHub Pages) we use the public/ copy. import.meta.env.BASE_URL
+// makes it work under any vite `base` (e.g. "/<repo>/").
+const PHOTO_URL = `${import.meta.env.BASE_URL}carlos-cavalcante.jpg`;
 
 export const profile: Profile = {
   name: "Carlos Cavalcante",
@@ -9,7 +13,7 @@ export const profile: Profile = {
   period: "2024 — 2026",
   location: "Recife, Brasil",
   email: "carlos.cavalcante@cesar.school",
-  photoUrl: carlosAsset.url,
+  photoUrl: PHOTO_URL,
   tagline:
     "Transformo problemas em pipelines, painéis e decisões — com pensamento analítico, dado limpo e código que dura.",
   bio:

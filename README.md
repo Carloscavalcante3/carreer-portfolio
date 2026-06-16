@@ -1,128 +1,120 @@
-# Carlos Cavalcante — Dossiê de Carreira & Portfólio
+# Dossiê de Carreira — Carlos Cavalcante
 
-Portfólio editorial premium que também cumpre os 10 requisitos do
-Dossiê de Carreira (Projeto Integrador V — CESAR School, ADS).
+Portfólio editorial + dossiê acadêmico do Projeto Integrador V (CESAR School).
+Construído como uma narrativa em 10 capítulos, com identidade visual própria
+(papel cru, vermelho cinábrio, tipografia serifada editorial) — sem cara de
+trabalho universitário.
 
-> Editorial creme/baunilha com vermelho cinábrio como único acento.
-> Tipografia: Instrument Serif (display) + Inter (corpo) + JetBrains Mono (meta).
+**Stack:** TanStack Start (React 19 + Vite 7) · Tailwind v4 · Framer Motion · TypeScript.
+**Saída:** site 100% estático (HTML pré-renderizado para cada rota), pronto para GitHub Pages.
 
-## Stack
+---
 
-- **TanStack Start** (React 19 + Vite 7) com file-based routing
-- **TypeScript** estrito
-- **Tailwind CSS v4** (config CSS-first em `src/styles.css`)
-- **shadcn/ui** + Radix primitives
-- **Motion (Framer Motion)** para revelações e parallax
-- **Lucide** para ícones
-- Deploy gerenciado via Lovable (Cloudflare Workers).
+## Editar conteúdo
 
-## Como rodar localmente
+Todo o conteúdo do site fica isolado em `src/content/` — você nunca precisa
+mexer em componentes para mudar texto.
+
+| Arquivo | O que contém |
+| --- | --- |
+| `src/content/profile.ts` | Nome, bio, tagline, links, objetivos, interesses |
+| `src/content/experiences.ts` | Estágios (Avantia, SCGE) — responsabilidades e aprendizados |
+| `src/content/projects.ts` | Projetos integradores (SJCC, FH Data, ContagIA, LicitaME) |
+| `src/content/timeline.ts` | Linha do tempo da formação |
+| `src/content/skills.ts` | Hard e soft skills, agrupadas |
+| `src/content/chapters.ts` | Metadados dos 10 capítulos (slug, título, descrição SEO) |
+| `src/content/chapter-content.ts` | **Texto longo** de cada capítulo, em blocos |
+
+Os blocos suportados em `chapter-content.ts` são: `paragraph`, `list`,
+`quote`, `grid` (stats), `two-col` e `comparison`. Adicionar/remover blocos
+não exige tocar nos componentes — basta editar o array do capítulo.
+
+A foto de perfil é referenciada via `src/assets/carlos.asset.json`.
+
+---
+
+## Rodar localmente
 
 ```bash
 bun install
 bun run dev
+# abre em http://localhost:8080
 ```
 
-Abre em `http://localhost:8080`.
+Build local idêntico ao de produção:
 
-## Estrutura
-
-```
-src/
-├─ assets/            # Imagens / fotos (asset pointers Lovable)
-├─ components/
-│  ├─ site/           # Header, Footer, Reveal, ChapterLayout
-│  └─ ui/             # shadcn/ui primitives
-├─ content/           # ÚNICO lugar para editar texto/dados
-│  ├─ profile.ts      # Nome, bio, links, interesses, objetivos
-│  ├─ experiences.ts  # Estágios (SCGE, Avantia)
-│  ├─ projects.ts     # Projetos integradores
-│  ├─ skills.ts       # Mapa de competências
-│  ├─ timeline.ts     # Linha do tempo
-│  ├─ chapters.ts     # Os 10 capítulos do dossiê (rotas + meta)
-│  └─ chapter-content.ts  # Blocos de conteúdo longo por capítulo
-├─ hooks/
-├─ routes/            # File-based routing TanStack
-│  ├─ __root.tsx      # Shell: fontes, header, footer, SEO base
-│  ├─ index.tsx       # Home narrativa (5 atos)
-│  ├─ perfil.tsx      # 02 · Perfil Profissional
-│  ├─ diagnostico.tsx # 03 · Diagnóstico
-│  ├─ empregabilidade.tsx # 04 · Contexto e Empregabilidade
-│  ├─ hipoteses.tsx   # 05 · Hipóteses de Desenvolvimento
-│  ├─ experimentacao.tsx  # 06 · Experimentação Prática
-│  ├─ evidencias.tsx  # 07 · Evidências e Aprendizados
-│  ├─ percurso.tsx    # 08 · Projetos e Percurso Acadêmico
-│  ├─ planejamento.tsx    # 09 · Planejamento Pós-Faculdade
-│  ├─ sintese.tsx     # 10 · Síntese Final · Carta Profissional
-│  └─ sitemap[.]xml.ts    # Sitemap dinâmico
-├─ types/dossier.ts   # Tipagem central
-└─ styles.css         # Design system (tokens, tipografia, utilities)
+```bash
+bun run build
+bun run preview
 ```
 
-## Editar conteúdo (sem tocar em código)
+---
 
-Todo conteúdo textual vive em `src/content/*.ts`. Cada arquivo é
-tipado por `src/types/dossier.ts`, então o TypeScript te diz se você
-esqueceu um campo.
+## Publicar no GitHub Pages
 
-| Quero mudar... | Arquivo |
-| --- | --- |
-| Bio, foto, links sociais, interesses | `src/content/profile.ts` |
-| Adicionar/editar um estágio | `src/content/experiences.ts` |
-| Adicionar/editar projeto integrador | `src/content/projects.ts` |
-| Skills e níveis (1–5) | `src/content/skills.ts` |
-| Eventos da linha do tempo | `src/content/timeline.ts` |
-| Texto longo de um capítulo do dossiê | `src/content/chapter-content.ts` |
-| Título/descrição de um capítulo | `src/content/chapters.ts` |
+O workflow `.github/workflows/deploy.yml` faz tudo automaticamente.
 
-A foto é um asset Lovable (`src/assets/carlos.asset.json`). Pra
-trocar, suba uma nova via chat ou rode `lovable-assets create`.
+**Setup, uma única vez:**
 
-## Publicar
+1. Empurre o repositório para o GitHub (a integração nativa do Lovable já cuida disso).
+2. No GitHub, abra **Settings → Pages** e selecione **Source: GitHub Actions**.
+3. Ainda em **Settings → Actions → General**, garanta **Workflow permissions: Read and write**.
 
-### Pela Lovable (1 clique)
+**Deploy:** todo push na branch `main` dispara o Action, que pré-renderiza
+cada rota como HTML estático, adiciona `.nojekyll` e `404.html` (para deep
+links funcionarem com refresh) e publica em `https://<seu-usuario>.github.io/<repo>/`.
 
-No editor, clique em **Publish**. Sai em `*.lovable.app`. Custom
-domain opcional em Project Settings → Domains.
+### Sobre o caminho base
 
-### GitHub
+O Action seta automaticamente `GH_PAGES_BASE=/<nome-do-repo>/`, que o Vite
+usa como `base`. Isso cobre o caso padrão de **project site**
+(`https://carloscavalcante3.github.io/<repo>/`).
 
-Conecte o projeto ao GitHub via menu `+` → GitHub → Connect project.
-Sync bidirecional. Você pode hospedar fora também — o build é Vite
-padrão (`bun run build`).
+Se você usar um **user site** (repositório chamado `carloscavalcante3.github.io`),
+edite a linha `GH_PAGES_BASE` no workflow para `/` (raiz).
 
-> Observação: este projeto roda em TanStack Start (SSR + Workers), e
-> **não** é um export estático Next.js para GitHub Pages. Pra hospedar
-> estaticamente, seria necessário reescrever para Next.js export ou
-> Vite SPA + adapter.
+No preview do Lovable e no build padrão, `GH_PAGES_BASE` não é definido e o
+`base` permanece `/` — nada muda no editor.
 
-## Continuar com outra IA
+---
 
-A arquitetura foi pensada para isso:
+## Continuar o desenvolvimento com outra IA
 
-- Tipos centrais em `src/types/dossier.ts` — qualquer IA infere o
-  schema rapidamente.
-- Conteúdo isolado em `src/content/*` — IA edita texto sem mexer em
-  componentes.
-- Componentes de página em `src/components/site/*` — Reveal,
-  ChapterLayout, Header, Footer já modulares.
-- Cada capítulo do dossiê tem rota própria, meta SEO próprio e usa
-  `ChapterLayout` que lê de `chapter-content.ts`. Para adicionar um
-  capítulo: criar entrada em `chapters.ts`, blocos em
-  `chapter-content.ts`, e um arquivo de rota copiando qualquer dos
-  existentes.
+O projeto foi pensado para ser portável e legível por qualquer assistente.
 
-## Cobertura dos requisitos acadêmicos
+- **Onde está cada coisa:** rotas em `src/routes/` (uma por capítulo, file-based
+  routing do TanStack), componentes editoriais em `src/components/site/`,
+  primitivas shadcn em `src/components/ui/`, tokens de cor/fonte em `src/styles.css`.
+- **Tipos canônicos:** `src/types/dossier.ts` define as interfaces de
+  `Profile`, `Experience`, `Project`, `ChapterMeta`, etc. Qualquer edição
+  estrutural de conteúdo deve respeitar essas interfaces.
+- **Adicionar uma rota nova:** crie `src/routes/<slug>.tsx` exportando uma
+  `Route = createFileRoute("/<slug>")({...})`, adicione o slug ao array
+  `ROUTES` em `vite.config.ts` (para ser pré-renderizada) e ao
+  `src/content/chapters.ts` se for um capítulo do dossiê.
+- **Não edite** `src/routeTree.gen.ts` — é gerado automaticamente.
 
-| # | Requisito | Onde está |
-| --- | --- | --- |
-| 01 | Página Inicial | `/` |
-| 02 | Perfil Profissional | `/perfil` |
-| 03 | Diagnóstico Profissional | `/diagnostico` |
-| 04 | Contexto e Empregabilidade | `/empregabilidade` |
-| 05 | Hipóteses de Desenvolvimento | `/hipoteses` |
-| 06 | Experimentação Prática | `/experimentacao` |
-| 07 | Evidências e Aprendizados | `/evidencias` |
-| 08 | Projetos e Percurso Acadêmico | `/percurso` |
-| 09 | Planejamento Pós-Faculdade | `/planejamento` |
-| 10 | Síntese Final · Carta Profissional | `/sintese` |
+---
+
+## Estrutura de rotas
+
+```
+/                  Home — narrativa em 5 atos
+/perfil            Capítulo 02 — Perfil profissional
+/diagnostico       Capítulo 03 — Diagnóstico
+/empregabilidade   Capítulo 04 — Mercado e empregabilidade
+/hipoteses         Capítulo 05 — Hipóteses de desenvolvimento
+/experimentacao    Capítulo 06 — Experimentação prática
+/evidencias        Capítulo 07 — Evidências e aprendizados
+/percurso          Capítulo 08 — Percurso acadêmico
+/planejamento     Capítulo 09 — Planejamento pós-faculdade
+/sintese           Capítulo 10 — Síntese / carta profissional
+/sitemap.xml       Sitemap dinâmico (SEO)
+```
+
+---
+
+## Links
+
+- GitHub: <https://github.com/Carloscavalcante3>
+- LinkedIn: <https://www.linkedin.com/in/carlos-cavalcante3/>
