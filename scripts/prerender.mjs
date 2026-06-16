@@ -65,9 +65,12 @@ async function main() {
   console.log(`▸ Prerendering ${ROUTES.length} routes (base="${BASE || "/"}")`);
 
   for (const route of ROUTES) {
-    // We always render at the unprefixed path. Vite already baked `base` into
-    // every client asset URL inside the SSR HTML, so the result is portable.
-    const url = `http://localhost${route}`;
+    // Request through the same base path Vite baked into the client bundle —
+    // otherwise the router 307-redirects us to the prefixed URL.
+    const pathWithBase = BASE
+      ? (route === "/" ? `${BASE}/` : `${BASE}${route}`)
+      : route;
+    const url = `http://localhost${pathWithBase}`;
     const req = new Request(url, { headers: { accept: "text/html" } });
     const res = await handler.fetch(req, env, ctx);
     if (!res.ok) {
