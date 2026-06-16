@@ -5,8 +5,9 @@
 //     error logger plugins, and sandbox detection (port/host/strictPort).
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 
-// All routes of the dossier — explicitly prerendered to plain HTML so the
-// output can be served as a fully static site (GitHub Pages compatible).
+// All routes of the dossier — prerendered to plain HTML when building for
+// GitHub Pages (static deploy). In the regular Lovable build (Cloudflare),
+// prerender stays off and TanStack Start does normal SSR.
 const ROUTES = [
   "/",
   "/perfil",
@@ -20,15 +21,15 @@ const ROUTES = [
   "/sintese",
 ];
 
-// When building for GitHub Pages project sites (https://user.github.io/<repo>/),
-// the GitHub Action sets GH_PAGES_BASE=/<repo>/. For user/organization sites
-// and for the Lovable preview/Cloudflare build, base stays as "/".
+const isPagesBuild = process.env.GH_PAGES === "1";
 const base = process.env.GH_PAGES_BASE ?? "/";
 
 export default defineConfig({
   vite: { base },
   tanstackStart: {
     server: { entry: "server" },
-    pages: ROUTES.map((path) => ({ path, prerender: { enabled: true } })),
+    ...(isPagesBuild
+      ? { pages: ROUTES.map((path) => ({ path, prerender: { enabled: true } })) }
+      : {}),
   },
 });
