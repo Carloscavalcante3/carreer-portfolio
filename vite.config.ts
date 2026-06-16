@@ -5,35 +5,14 @@
 //     error logger plugins, and sandbox detection (port/host/strictPort).
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 
-// All routes of the dossier — prerendered to plain HTML when building for
-// GitHub Pages (static deploy). In the regular Lovable build (Cloudflare),
-// prerender stays off and TanStack Start does normal SSR.
-const ROUTES = [
-  "/",
-  "/perfil",
-  "/diagnostico",
-  "/empregabilidade",
-  "/hipoteses",
-  "/experimentacao",
-  "/evidencias",
-  "/percurso",
-  "/planejamento",
-  "/sintese",
-];
-
-const isPagesBuild = process.env.GH_PAGES === "1";
+// In the Lovable build the cloudflare preset is the default. In the GitHub Pages
+// Action we set NITRO_PRESET=node-server + GH_PAGES_BASE=/<repo>/ and run the
+// extra `scripts/prerender.mjs` step to flatten every route into static HTML.
 const base = process.env.GH_PAGES_BASE ?? "/";
 
 export default defineConfig({
   vite: { base },
-  tanstackStart: isPagesBuild
-    ? {
-        // For static prerender, let TanStack Start use its default server entry
-        // so the prerender plugin can locate dist/server/server.js as expected.
-        pages: ROUTES.map((path) => ({ path, prerender: { enabled: true } })),
-      }
-    : {
-        // In the Lovable / Cloudflare build, keep our SSR error wrapper.
-        server: { entry: "server" },
-      },
+  tanstackStart: {
+    server: { entry: "server" },
+  },
 });
