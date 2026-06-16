@@ -71,7 +71,7 @@ async function main() {
       ? (route === "/" ? `${BASE}/` : `${BASE}${route}`)
       : route;
     const url = `http://localhost${pathWithBase}`;
-    const req = new Request(url, { headers: { accept: "text/html" } });
+    const req = new Request(url, { headers: { accept: "text/html", "accept-encoding": "identity" } });
     const res = await handler.fetch(req, env, ctx);
     if (!res.ok) {
       const body = await res.text().catch(() => "");
