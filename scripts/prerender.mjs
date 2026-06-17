@@ -51,7 +51,7 @@ const ctx = {
 };
 
 async function main() {
-  const entryRel = "dist/server/index.mjs";
+  const entryRel = "dist/server/server.js";
   if (!(await fileExists(entryRel))) {
     throw new Error(`Missing ${entryRel}. Run \`bun run build\` first.`);
   }
