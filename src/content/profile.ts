@@ -12,7 +12,7 @@ export const profile: Profile = {
   institution: "CESAR School",
   period: "2024 — 2026",
   location: "Recife, Brasil",
-  email: "carlos.cavalcante@cesar.school",
+  email: "carlos.cvlnt@gmail.com",
   photoUrl: PHOTO_URL,
   tagline:
     "Transformo problemas em pipelines, painéis e decisões — com pensamento analítico, dado limpo e código que dura.",
